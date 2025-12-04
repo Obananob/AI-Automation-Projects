@@ -1,17 +1,98 @@
 # Product Image Expert
 
 ## Overview
-Product Image Expert is an AI-powered automation workflow that transforms raw product images into market-ready visuals. Using n8n, the OpenAI Image Editing model, and IMGBB, this automation produces professional-quality images and delivers them directly to the customer via email.
+Product Image Expert is an AI-powered automation workflow that transforms raw product images into high-quality, market-ready visuals. It combines Google Drive, an AI agent for prompt generation, the OpenAI Image Editing model, IMGBB for hosting, and automated email delivery — all orchestrated inside n8n.
 
-This system removes the need for manual photo editing, file conversion, and hosting by fully automating every step from image enhancement to URL generation.
+The workflow enhances product images without requiring manual editing or file handling.
 
 ## Tools Used
-- **n8n**: Orchestrates the entire workflow.
-- **OpenAI Image Editing Model**: Enhances or redesigns the product image.
-- **IMGBB API**: Converts edited images into a publicly accessible URL.
-- **Gmail (or Email Node)**: Sends the final URL to the customer.
-- **Base64 to File Node**: Converts OpenAI output into a usable image file.
+- **n8n**: Automation platform coordinating all workflow steps.
+- **Google Drive**: Stores both the uploaded raw image and downloads the file for editing.
+- **AI Agent Node**: Automatically generates the perfect prompt for the OpenAI image editing model.
+- **OpenAI Image Editing API**: Performs the actual enhancement and background improvement.
+- **Base64 → File Converter Node**: Converts OpenAI output into a downloadable file.
+- **IMGBB API**: Hosts the edited image and returns a public URL.
+- **Email Node**: Sends the final URL to the customer.
 
+---
+
+## How It Works (Step-by-Step)
+
+### **1. Form Submission**
+The automation begins when a customer submits:
+- A product image (uploaded via form)
+- A short product description or request  
+The submission is captured by n8n.
+
+### **2. Upload to Google Drive**
+The raw product image from the form is uploaded into a specific Google Drive folder for storage and reference.
+
+### **3. AI Agent Generates a Prompt**
+The product description and context are passed to an **AI Agent node**.  
+The agent generates a clean, optimized prompt for the image editing model, such as:
+
+> “Enhance this product image with a white studio background, improved lighting, clean shadows, and ecommerce-ready quality.”
+
+### **4. Google Drive Downloads the File**
+The same file previously uploaded to Google Drive is now downloaded so it can be passed into the OpenAI model.
+
+### **5. OpenAI Image Editing**
+Using:  
+- The downloaded product image  
+- The AI-generated prompt  
+
+The OpenAI Image Editing model produces an improved product image and returns it as **base64 data**.
+
+### **6. Base64 → File Conversion**
+An n8n conversion node transforms the base64 output into a physical image file (`.png` or `.jpg`).
+
+### **7. Upload to IMGBB**
+The converted image file is sent via POST request to the **IMGBB API**.
+
+IMGBB returns:
+- A *public URL* for the enhanced image  
+- Additional metadata (size, expiration, etc.)
+
+### **8. Email the Customer**
+The workflow sends the customer:
+- A message confirming completion  
+- The IMGBB URL of the enhanced product image  
+- (Optional) A preview of the final image  
+
+### **9. Optional Logging**
+You may store:
+- Original image link  
+- IMGBB final URL  
+- Customer details  
+- Timestamp  
+- Prompt used  
+
+---
+
+## Time Savings
+Product Image Expert removes the need for:
+- Manual photo editing  
+- Manual image hosting  
+- Sending update emails  
+- Repetitive file conversion processes  
+
+It can save ecommerce teams **hours of editing time** and gives consistent professional results.
+
+---
+
+## Required Authentications
+- **Google Drive API**: For uploading and downloading image files.
+- **OpenAI API Key**: For generating the edited image.
+- **IMGBB API Key**: For storing the edited image and obtaining a public URL.
+- **Email API (e.g., Gmail)**: For sending the final image link to the user.
+
+---
+
+## Future Improvements
+- Allow customers to choose between multiple AI design styles.
+- Append watermarks or logos automatically.
+- Auto-update product listings on Shopify or WooCommerce.
+- Create a gallery of all processed images for business owners.
 ## How It Works
 1. **User Submits Image + Description**
    - The workflow receives:
