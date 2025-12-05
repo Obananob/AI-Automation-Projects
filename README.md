@@ -4,17 +4,6 @@ This repository showcases a collection of automation workflows I’ve developed 
 
 ## Projects
 
-- [Crypto Watcher](#crypto-watcher)  
-- [Customer Support Agent](#customer-support-agent)  
-- [Data Summarizer](#data-summarizer)  
-- [Email Automation for Student Notifications](#email-automation-for-student-notifications)  
-- [Invoice Flow](#invoice-flow)  
-- [Personal Assistant](#personal-assistant)  
-- [Product Image Expert](#product-image-expert)  
-- [School Library Management System](#school-library-management-system)  
-- [YouTube Comment Scraper](#youtube-comment-scraper)  
-- [Google Maps List Scraper](#google-maps-list-scraper)  
-
 ## Crypto Watcher
 
 **Description:** An automation built with Make.com that monitors cryptocurrency prices and sends alerts for significant changes.  
