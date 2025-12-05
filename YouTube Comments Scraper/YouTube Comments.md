@@ -27,10 +27,8 @@ This automation eliminates the need for manual scraping and ensures comments are
    - Stored fields typically include:
      - Comment text  
      - Username  
-     - Date  
-     - Like count  
-     - Video URL  
-     - Comment ID  
+     - Comment ID
+     - Page URL
 
 5. **Completion**
    - Once all comments are inserted into Airtable, the workflow ends.
