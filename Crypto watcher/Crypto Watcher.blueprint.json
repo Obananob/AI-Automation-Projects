@@ -1,0 +1,908 @@
+{
+    "name": "Crypto Watcher",
+    "flow": [
+        {
+            "id": 3,
+            "module": "gateway:CustomWebHook",
+            "version": 1,
+            "parameters": {
+                "hook": 3194323,
+                "maxResults": 1
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 150
+                },
+                "restore": {
+                    "parameters": {
+                        "hook": {
+                            "data": {
+                                "editable": "true"
+                            },
+                            "label": "Crypto Watcher"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "hook",
+                        "type": "hook:gateway-webhook",
+                        "label": "Webhook",
+                        "required": true
+                    },
+                    {
+                        "name": "maxResults",
+                        "type": "number",
+                        "label": "Maximum number of results"
+                    }
+                ],
+                "advanced": true
+            }
+        },
+        {
+            "id": 4,
+            "module": "http:ActionSendData",
+            "version": 3,
+            "parameters": {
+                "handleErrors": true,
+                "useNewZLibDeCompress": true
+            },
+            "mapper": {
+                "ca": "",
+                "qs": [],
+                "url": "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=10",
+                "gzip": true,
+                "method": "get",
+                "headers": [],
+                "timeout": "",
+                "useMtls": false,
+                "authPass": "",
+                "authUser": "",
+                "bodyType": "",
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": true,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+            },
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 150
+                },
+                "restore": {
+                    "expect": {
+                        "qs": {
+                            "mode": "chose"
+                        },
+                        "method": {
+                            "mode": "chose",
+                            "label": "GET"
+                        },
+                        "headers": {
+                            "mode": "chose"
+                        },
+                        "bodyType": {
+                            "label": "Empty"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "handleErrors",
+                        "type": "boolean",
+                        "label": "Evaluate all states as errors (except for 2xx and 3xx )",
+                        "required": true
+                    },
+                    {
+                        "name": "useNewZLibDeCompress",
+                        "type": "hidden"
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "url",
+                        "type": "url",
+                        "label": "URL",
+                        "required": true
+                    },
+                    {
+                        "name": "serializeUrl",
+                        "type": "boolean",
+                        "label": "Serialize URL",
+                        "required": true
+                    },
+                    {
+                        "name": "method",
+                        "type": "select",
+                        "label": "Method",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "get",
+                                "head",
+                                "post",
+                                "put",
+                                "patch",
+                                "delete",
+                                "options"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "headers",
+                        "spec": [
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "Name",
+                                "required": true
+                            },
+                            {
+                                "name": "value",
+                                "type": "text",
+                                "label": "Value"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Headers"
+                    },
+                    {
+                        "name": "qs",
+                        "spec": [
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "Name",
+                                "required": true
+                            },
+                            {
+                                "name": "value",
+                                "type": "text",
+                                "label": "Value"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Query String"
+                    },
+                    {
+                        "name": "bodyType",
+                        "type": "select",
+                        "label": "Body type",
+                        "validate": {
+                            "enum": [
+                                "raw",
+                                "x_www_form_urlencoded",
+                                "multipart_form_data"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "parseResponse",
+                        "type": "boolean",
+                        "label": "Parse response",
+                        "required": true
+                    },
+                    {
+                        "name": "authUser",
+                        "type": "text",
+                        "label": "User name"
+                    },
+                    {
+                        "name": "authPass",
+                        "type": "password",
+                        "label": "Password"
+                    },
+                    {
+                        "name": "timeout",
+                        "type": "uinteger",
+                        "label": "Timeout",
+                        "validate": {
+                            "max": 300,
+                            "min": 1
+                        }
+                    },
+                    {
+                        "name": "shareCookies",
+                        "type": "boolean",
+                        "label": "Share cookies with other HTTP modules",
+                        "required": true
+                    },
+                    {
+                        "name": "ca",
+                        "type": "cert",
+                        "label": "Self-signed certificate"
+                    },
+                    {
+                        "name": "rejectUnauthorized",
+                        "type": "boolean",
+                        "label": "Reject connections that are using unverified (self-signed) certificates",
+                        "required": true
+                    },
+                    {
+                        "name": "followRedirect",
+                        "type": "boolean",
+                        "label": "Follow redirect",
+                        "required": true
+                    },
+                    {
+                        "name": "useQuerystring",
+                        "type": "boolean",
+                        "label": "Disable serialization of multiple same query string keys as arrays",
+                        "required": true
+                    },
+                    {
+                        "name": "gzip",
+                        "type": "boolean",
+                        "label": "Request compressed content",
+                        "required": true
+                    },
+                    {
+                        "name": "useMtls",
+                        "type": "boolean",
+                        "label": "Use Mutual TLS",
+                        "required": true
+                    },
+                    {
+                        "name": "followAllRedirects",
+                        "type": "boolean",
+                        "label": "Follow all redirect",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 5,
+            "module": "builtin:BasicFeeder",
+            "version": 1,
+            "parameters": {},
+            "mapper": {
+                "array": "{{4.data}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 600,
+                    "y": 150
+                },
+                "restore": {
+                    "expect": {
+                        "array": {
+                            "mode": "edit"
+                        }
+                    }
+                },
+                "expect": [
+                    {
+                        "mode": "edit",
+                        "name": "array",
+                        "spec": [],
+                        "type": "array",
+                        "label": "Array"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 7,
+            "module": "builtin:BasicRouter",
+            "version": 1,
+            "mapper": null,
+            "metadata": {
+                "designer": {
+                    "x": 900,
+                    "y": 150
+                }
+            },
+            "routes": [
+                {
+                    "flow": [
+                        {
+                            "id": 9,
+                            "module": "telegram:SendReplyMessage",
+                            "version": 1,
+                            "parameters": {
+                                "__IMTCONN__": 11539142
+                            },
+                            "filter": {
+                                "name": "PRICE UP ALERT",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{5.price_change_percentage_24h}}",
+                                            "b": "5",
+                                            "o": "number:greater"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "text": "🚨{{5.name}} is Pumping!\nPrice: ${{5.current_price}}\nChange: {{5.price_change_percentage_24h}}%\nMarket Cap: ${{5.market_cap}}\nVolume: ${{5.total_volume}}\n🕒 {{5.last_updated}}",
+                                "chatId": "5007710796",
+                                "parseMode": "Markdown",
+                                "replyMarkup": "",
+                                "messageThreadId": "",
+                                "replyToMessageId": "",
+                                "replyMarkupAssembleType": "reply_markup_enter"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1200,
+                                    "y": 0
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "parseMode": {
+                                            "label": "Markdown"
+                                        },
+                                        "disableNotification": {
+                                            "mode": "chose"
+                                        },
+                                        "replyMarkupAssembleType": {
+                                            "label": "Enter the Reply Markup"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "telegram"
+                                            },
+                                            "label": "My Telegram Bot connection"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:telegram",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "chatId",
+                                        "type": "text",
+                                        "label": "Chat ID",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Text",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "messageThreadId",
+                                        "type": "number",
+                                        "label": "Message Thread ID"
+                                    },
+                                    {
+                                        "name": "parseMode",
+                                        "type": "select",
+                                        "label": "Parse Mode",
+                                        "validate": {
+                                            "enum": [
+                                                "Markdown",
+                                                "HTML"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "disableNotification",
+                                        "type": "boolean",
+                                        "label": "Disable Notifications"
+                                    },
+                                    {
+                                        "name": "disableWebPagePreview",
+                                        "type": "boolean",
+                                        "label": "Disable Link Previews"
+                                    },
+                                    {
+                                        "name": "replyToMessageId",
+                                        "type": "number",
+                                        "label": "Original Message ID"
+                                    },
+                                    {
+                                        "name": "replyMarkupAssembleType",
+                                        "type": "select",
+                                        "label": "Enter/Assemble the Reply Markup Field",
+                                        "validate": {
+                                            "enum": [
+                                                "reply_markup_enter",
+                                                "reply_markup_assemble"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "replyMarkup",
+                                        "type": "text",
+                                        "label": "Reply Markup"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 13,
+                            "module": "supabase:createARow",
+                            "version": 1,
+                            "parameters": {
+                                "__IMTCONN__": 11540420
+                            },
+                            "mapper": {
+                                "Name": "{{5.name}}",
+                                "Price": "{{5.current_price}}",
+                                "table": "Price Up Alert",
+                                "% change": "{{5.price_change_percentage_24h}}",
+                                "TimeStamp": "{{5.last_updated}}",
+                                "Market_Cap": "{{5.market_cap_change_percentage_24h}}"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1500,
+                                    "y": 0
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "table": {
+                                            "mode": "chose",
+                                            "label": "Price Up Alert",
+                                            "nested": [
+                                                {
+                                                    "help": "",
+                                                    "name": "Name",
+                                                    "type": "text",
+                                                    "label": "Name",
+                                                    "options": null,
+                                                    "required": false
+                                                },
+                                                {
+                                                    "help": "",
+                                                    "name": "Price",
+                                                    "type": "number",
+                                                    "label": "Price",
+                                                    "options": null,
+                                                    "required": false
+                                                },
+                                                {
+                                                    "help": "",
+                                                    "name": "% change",
+                                                    "type": "number",
+                                                    "label": "% change",
+                                                    "options": null,
+                                                    "required": false
+                                                },
+                                                {
+                                                    "help": "",
+                                                    "name": "Market_Cap",
+                                                    "type": "number",
+                                                    "label": "Market_Cap",
+                                                    "options": null,
+                                                    "required": false
+                                                },
+                                                {
+                                                    "help": "",
+                                                    "name": "TimeStamp",
+                                                    "type": "text",
+                                                    "label": "TimeStamp",
+                                                    "options": null,
+                                                    "required": false
+                                                },
+                                                {
+                                                    "help": "Defaults to gen_random_uuid(). ",
+                                                    "name": "id",
+                                                    "type": "text",
+                                                    "label": "id",
+                                                    "options": null,
+                                                    "required": false
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "supabase"
+                                            },
+                                            "label": "Crypto Watcher"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:supabase",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "table",
+                                        "type": "select",
+                                        "label": "Table",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "Name",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "name": "Price",
+                                        "type": "number"
+                                    },
+                                    {
+                                        "name": "% change",
+                                        "type": "number"
+                                    },
+                                    {
+                                        "name": "Market_Cap",
+                                        "type": "number"
+                                    },
+                                    {
+                                        "name": "TimeStamp",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "name": "id",
+                                        "type": "text"
+                                    }
+                                ],
+                                "interface": [
+                                    {
+                                        "name": "Name",
+                                        "type": "text",
+                                        "label": "Name"
+                                    },
+                                    {
+                                        "name": "Price",
+                                        "type": "text",
+                                        "label": "Price"
+                                    },
+                                    {
+                                        "name": "% change",
+                                        "type": "text",
+                                        "label": "% change"
+                                    },
+                                    {
+                                        "name": "Market_Cap",
+                                        "type": "text",
+                                        "label": "Market_Cap"
+                                    },
+                                    {
+                                        "name": "TimeStamp",
+                                        "type": "text",
+                                        "label": "TimeStamp"
+                                    },
+                                    {
+                                        "name": "id",
+                                        "type": "text",
+                                        "label": "id"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "flow": [
+                        {
+                            "id": 10,
+                            "module": "telegram:SendReplyMessage",
+                            "version": 1,
+                            "parameters": {
+                                "__IMTCONN__": 11539142
+                            },
+                            "filter": {
+                                "name": "PRICE DOWN ALERT",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{5.price_change_percentage_24h}}",
+                                            "b": "5",
+                                            "o": "number:less"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "text": "🚨{{5.name}} is Dropping!!!\nPrice: ${{5.current_price}}\nChange: {{5.price_change_percentage_24h}}%\nMarket Cap: ${{5.market_cap}}\nVolume: ${{5.total_volume}}\n🕒 {{5.last_updated}}",
+                                "chatId": "5007710796",
+                                "parseMode": "Markdown",
+                                "replyMarkup": "",
+                                "messageThreadId": "",
+                                "replyToMessageId": "",
+                                "replyMarkupAssembleType": "reply_markup_enter"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1200,
+                                    "y": 300
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "parseMode": {
+                                            "label": "Markdown"
+                                        },
+                                        "disableNotification": {
+                                            "mode": "chose"
+                                        },
+                                        "replyMarkupAssembleType": {
+                                            "label": "Enter the Reply Markup"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "telegram"
+                                            },
+                                            "label": "My Telegram Bot connection"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:telegram",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "chatId",
+                                        "type": "text",
+                                        "label": "Chat ID",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Text",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "messageThreadId",
+                                        "type": "number",
+                                        "label": "Message Thread ID"
+                                    },
+                                    {
+                                        "name": "parseMode",
+                                        "type": "select",
+                                        "label": "Parse Mode",
+                                        "validate": {
+                                            "enum": [
+                                                "Markdown",
+                                                "HTML"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "disableNotification",
+                                        "type": "boolean",
+                                        "label": "Disable Notifications"
+                                    },
+                                    {
+                                        "name": "disableWebPagePreview",
+                                        "type": "boolean",
+                                        "label": "Disable Link Previews"
+                                    },
+                                    {
+                                        "name": "replyToMessageId",
+                                        "type": "number",
+                                        "label": "Original Message ID"
+                                    },
+                                    {
+                                        "name": "replyMarkupAssembleType",
+                                        "type": "select",
+                                        "label": "Enter/Assemble the Reply Markup Field",
+                                        "validate": {
+                                            "enum": [
+                                                "reply_markup_enter",
+                                                "reply_markup_assemble"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "replyMarkup",
+                                        "type": "text",
+                                        "label": "Reply Markup"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 14,
+                            "module": "supabase:createARow",
+                            "version": 1,
+                            "parameters": {
+                                "__IMTCONN__": 11540420
+                            },
+                            "mapper": {
+                                "Name": "{{5.name}}",
+                                "Price": "{{5.current_price}}",
+                                "table": "Price Down Alert",
+                                "% change": "{{5.price_change_percentage_24h}}",
+                                "TimeStamp": "{{5.last_updated}}",
+                                "Market_Cap": "{{5.market_cap_change_percentage_24h}}"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1500,
+                                    "y": 300
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "table": {
+                                            "mode": "chose",
+                                            "label": "Price Down Alert",
+                                            "nested": [
+                                                {
+                                                    "help": "",
+                                                    "name": "Name",
+                                                    "type": "text",
+                                                    "label": "Name",
+                                                    "options": null,
+                                                    "required": false
+                                                },
+                                                {
+                                                    "help": "",
+                                                    "name": "Price",
+                                                    "type": "number",
+                                                    "label": "Price",
+                                                    "options": null,
+                                                    "required": false
+                                                },
+                                                {
+                                                    "help": "",
+                                                    "name": "% change",
+                                                    "type": "number",
+                                                    "label": "% change",
+                                                    "options": null,
+                                                    "required": false
+                                                },
+                                                {
+                                                    "help": "",
+                                                    "name": "Market_Cap",
+                                                    "type": "number",
+                                                    "label": "Market_Cap",
+                                                    "options": null,
+                                                    "required": false
+                                                },
+                                                {
+                                                    "help": "",
+                                                    "name": "TimeStamp",
+                                                    "type": "text",
+                                                    "label": "TimeStamp",
+                                                    "options": null,
+                                                    "required": false
+                                                },
+                                                {
+                                                    "help": "Defaults to gen_random_uuid(). Note:\nThis is a Primary Key.<pk/>",
+                                                    "name": "id",
+                                                    "type": "text",
+                                                    "label": "id",
+                                                    "options": null,
+                                                    "required": false
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "supabase"
+                                            },
+                                            "label": "Crypto Watcher"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:supabase",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "table",
+                                        "type": "select",
+                                        "label": "Table",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "Name",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "name": "Price",
+                                        "type": "number"
+                                    },
+                                    {
+                                        "name": "% change",
+                                        "type": "number"
+                                    },
+                                    {
+                                        "name": "Market_Cap",
+                                        "type": "number"
+                                    },
+                                    {
+                                        "name": "TimeStamp",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "name": "id",
+                                        "type": "text"
+                                    }
+                                ],
+                                "interface": [
+                                    {
+                                        "name": "Name",
+                                        "type": "text",
+                                        "label": "Name"
+                                    },
+                                    {
+                                        "name": "Price",
+                                        "type": "text",
+                                        "label": "Price"
+                                    },
+                                    {
+                                        "name": "% change",
+                                        "type": "text",
+                                        "label": "% change"
+                                    },
+                                    {
+                                        "name": "Market_Cap",
+                                        "type": "text",
+                                        "label": "Market_Cap"
+                                    },
+                                    {
+                                        "name": "TimeStamp",
+                                        "type": "text",
+                                        "label": "TimeStamp"
+                                    },
+                                    {
+                                        "name": "id",
+                                        "type": "text",
+                                        "label": "id"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "instant": true,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "eu2.make.com",
+        "notes": []
+    }
+}
