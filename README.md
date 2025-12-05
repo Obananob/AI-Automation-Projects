@@ -49,12 +49,10 @@ This repository showcases a collection of automation workflows I’ve developed 
 **Description:** An automation that scrapes comments from a specified YouTube video URL and stores them in Airtable.  
 **Tools Used:** n8n, Apify, Airtable
 
-## Google Maps List Scraper
+## Google Maps Lead Scraper
 
 **Description:** Scrapes business listings from Google Maps based on a given location and keyword, filtering out closed businesses and appending results to Google Sheets.  
 **Tools Used:** n8n, Apify, Google Sheets
 
-## How to Navigate
 
-Each project folder contains a detailed README with the full workflow, tools used, and screenshots. Simply click on any project link above to explore more details.
 
