@@ -52,7 +52,6 @@ This project implements an **AI-driven customer support workflow** to handle eve
 **Visual Workflow Wireframe:**  
 ## AI-Driven Customer Support Workflow
 
-```text
 [Customer Message] (WhatsApp / Form)
           │
           ▼
