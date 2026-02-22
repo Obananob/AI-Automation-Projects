@@ -50,39 +50,22 @@ This project implements an **AI-driven customer support workflow** to handle eve
 6. **Outcome Logging:** Track all responses, confidence scores, escalation paths, and metrics.
 
 **Visual Workflow Wireframe:**  
+
 ## AI-Driven Customer Support Workflow
 
-[Customer Message] (WhatsApp / Form)
-          │
-          ▼
-   [Text Classifier] -- Is it event-related?
-          │
-   ┌──────┴──────┐
-   │             │
- [No]           [Yes]
-   │             │
-Respond:       [QA Node]
-"I can only       │
-answer event"     ▼
-             [Knowledge Retriever]
-          (Pinecone + Supabase)
-                   │
-                   ▼
-              [Gemini LLM]
-         (Classification + Draft)
-                   │
-                   ▼
-         [Confidence Assessment]
-        /                     \
-  Not Confident             Confident
-       │                        │
-Escalate via Gmail/Slack  Respond → Await Approval
-                               │
-                    ┌──────────┴───────────┐
-                 Approved               Not Approved
-                   │                        │
-             Log in Sheet / Airtable   Escalate via Gmail 
-
+````mermaid
+flowchart TD
+    A["Customer Message - WhatsApp"] --> B["Text Classifier: Event-related?"]
+    B -->|No| C["Respond: 'I can only answer events'"]
+    B -->|Yes| D["QA Node"]
+    D --> E["Knowledge Retriever - Pinecone"]
+    E --> F["Gemini LLM - Classification + Draft"]
+    F --> G["Confidence Assessment"]
+    G -->|Not Confident| H["Escalate via Gmail/Slack"]
+    G -->|Confident| I["Respond → Wait for Approval"]
+    I -->|Approved| J["Log in Airtable"]
+    I -->|Not Approved| K["Escalate via Gmail"]
+````
 ---
 
 ## Tool Stack & Justification
@@ -91,14 +74,13 @@ Escalate via Gmail/Slack  Respond → Await Approval
 |-----------|------|---------|
 | Orchestration | n8n | Node-based automation for multi-step workflows and branching logic |
 | AI Reasoning & Drafting | Gemini | Classifies inquiries, drafts responses, and generates context-aware answers |
-| Knowledge Retrieval | Pinecone + Supabase | RAG: Pinecone handles vector search; Supabase stores structured metadata |
-| Triggers | WhatsApp / Form submissions | Real-time, structured input sources |
-| Human Handoff | Slack / Gmail | Escalation and context delivery for uncertain cases |
-| Logging | Airtable / Google Sheets | Structured logging, metrics, and analytics dashboards |
+| Knowledge Retrieval | Pinecone  | RAG: Pinecone handles vector search |
+| Triggers | WhatsApp / chat trigger | Real-time, structured input sources |
+| Human Handoff | Gmail | Escalation and context delivery for uncertain cases |
+| Logging | Airtable | Structured logging, metrics, and analytics dashboards |
 | Workflow Design | draw.io | Clear visual representation of automation logic and decision paths |
 
 ---
-
 ## AI Integration Points
 
 1. **Intent Detection:** Determines event relevance of customer queries.  
@@ -124,8 +106,5 @@ Escalate via Gmail/Slack  Respond → Await Approval
 ---
 
 ## Notes
-- This project focuses on **workflow design and conceptual AI integration** — no production code included.  
+- This project focuses on **workflow design and conceptual AI integration**
 - The workflow shows **end-to-end automation from chat intake to AI reasoning to human escalation**.  
-- Visual diagrams, workflow documentation, and tool justification are included to demonstrate technical depth and implementation planning.  
-
----
